@@ -5,6 +5,7 @@ import os
 import shutil
 import subprocess
 import sys
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
 
 # Ensure the `parser/` directory is in the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "parser")))
@@ -14,6 +15,23 @@ import parser
 
 # Initialize FastAPI app
 app = FastAPI()
+
+
+# ============================
+# 📌 CORS Configuration
+# ============================
+# Allow cross-origin requests from the frontend (e.g., localhost:5173)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Update with your frontend's URL
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
+
+
+
+
 
 # Define base directory where cloned repositories are stored
 BASE_CLONE_DIR = "cloned_repos"
